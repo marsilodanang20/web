@@ -1,4 +1,4 @@
-# 🏍️ Auto Klinik - Online Motorcycle Spare Parts Store
+#  Auto Klinik 
 
 ![Auto Klinik](https://github.com/marsilodanang20/web/blob/main/img/readme.png)
 
