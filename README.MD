@@ -1,6 +1,6 @@
 # 🏍️ Auto Klinik - Online Motorcycle Spare Parts Store
 
-![Auto Klinik](https://marsilodanang20/web/img/readme.png/github.io)
+![Auto Klinik](https://github.com/marsilodanang20/web/blob/main/img/readme.png)
 
 Auto Klinik is an online platform for selling high-quality motorcycle spare parts. We offer a wide range of spare parts with fast shipping and professional technical support.
 
