@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTO KLINIK - Marketplace Spareparts</title>
+    <meta name="description" content="Your ultimate destination for premium motorcycle parts with AI-powered search, real-time inventory, and expert recommendations.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography/dist/typography.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div id="app" v-cloak>
+        <!-- Header with Enhanced Navigation -->
+        <!-- Left Menu Sidebar -->
+        <header class="bg-gradient-to-r from-indigo-800 to-blue-900 text-white shadow-xl">
+            <nav class="container mx-auto px-4 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <a href="index-old.html" class="flex items-center space-x-4">
+                            <img src="img/logo-ak.png" alt="MotoSpare Logo" class="h-10 w-10 rounded-full">
+                            <h1 class="text-2xl font-bold tracking-tight">AUTO KLINIK</h1>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="hidden md:flex items-center space-x-4">
+                            <a href="src/about.html" class="text-white hover:text-indigo-200 hover:underline">About Us</a>
+                            <a href="src/contact.html" class="text-white hover:text-indigo-200 hover:underline">Contact Us</a>
+                            <a href="src/privacy.html" class="text-white hover:text-indigo-200 hover:underline">Privacy Policy</a>                            
+                        </div>
+                        <button @click="toggleSearch" class="flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span class="hidden md:inline">Search Parts</span>
+                        </button>
+                        <button @click="toggleCart" class="relative p-2 hover:bg-blue-700 rounded-full transition">
+                            <i class="fas fa-shopping-cart w-6 h-6"></i>
+                            <span v-if="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {{ cartCount }}
+                            </span>
+                        </button>
+                        <button @click="toggleLeftMenu" class="md:hidden p-2 hover:bg-blue-700 rounded-full transition ml-2">
+                            <i class="fas fa-bars w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Mobile Menu Sidebar -->
+        <div v-if="showLeftMenu" 
+             class="fixed inset-y-0 right-0 w-64 bg-indigo-800 text-white shadow-xl z-50 transform transition-transform duration-300"
+             :class="{ 'translate-x-0': showLeftMenu, 'translate-x-full': !showLeftMenu }">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-bold">Menu</h3>
+                    <button @click="toggleLeftMenu" class="p-2 hover:bg-indigo-700 rounded-full">
+                        <i class="fas fa-times w-6 h-6"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <a href="src/about.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-info-circle mr-3"></i>About Us</a>
+                    <a href="src/contact.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-envelope mr-3"></i>Contact Us</a>
+                    <a href="src/privacy.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-shield-alt mr-3"></i>Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            <!-- Categories Section -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Popular Categories Spareparts</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button v-for="category in categories" 
+                            :key="category.id" 
+                            @click="filterByCategory(category.id)"
+                            class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-center">
+                        <img :src="category.icon" :alt="category.name" class="w-12 h-12 mx-auto mb-2">
+                        <span class="font-medium">{{ category.name }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div v-for="part in parts" 
+                     :key="part.id" 
+                     class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="relative">
+                        <img :src="part.image" 
+                             :alt="part.name" 
+                             class="w-full h-48 object-cover">
+                        <span v-if="part.discount" 
+                              class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-sm">
+                            -{{ part.discount }}%
+                        </span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold">{{ part.name }}</h3>
+                            <span class="text-sm text-gray-500">{{ part.compatibility }}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">{{ part.description }}</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xl font-bold text-indigo-600">Rp {{ part.price.toLocaleString('id-ID') }}</span>
+                                <span v-if="part.originalPrice" class="text-sm text-gray-400 line-through ml-2"> 
+                                    Rp {{ part.originalPrice.toLocaleString('id-ID') }}
+                                </span>
+                            </div>
+                            <button @click="addToCart(part)" 
+                                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+                                <span>Add to Cart</span>
+                                <i class="fas fa-plus w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- About Us -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">About Us</h4>
+                        <ul class="space-y-2">
+                            <li><a href="src/about.html" class="hover:text-indigo-400">Our Story</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Customer Service -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Customer Service</h4>
+                        <ul class="space-y-2">
+                            <li><a href="src/contact.html" class="hover:text-indigo-400">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Legal -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="src/privacy.html" class="hover:text-indigo-400">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Connect -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Connect</h4>
+                        <ul class="space-y-2">
+                            <li><a href="https://www.instagram.com/marsilodanang_/" class="hover:text-indigo-400 flex items-center">
+                                <i class="fab fa-instagram w-6"></i> Instagram
+                            </a></li>
+                            <li><a href="https://x.com/Marsilodanang20" class="hover:text-indigo-400 flex items-center">
+                                <i class="fab fa-twitter w-6"></i> Twitter
+                            </a></li>
+                            <li><a href="https://www.facebook.com/irsoekarno.hatta.100/" class="hover:text-indigo-400 flex items-center">
+                                <i class="fab fa-facebook w-6"></i> Facebook
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-8 pt-8 border-t border-gray-800">
+                    <p>&copy; 2025 AUTO KLINIK. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+      <!-- WhatsApp Chat Button -->
+<a href="https://wa.me/+6285624653594" 
+target="_blank"
+class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 z-40">
+ <div class="flex items-center space-x-2">
+     <i class="fab fa-whatsapp text-2xl animate-bounce"></i>
+     <span class="hidden md:inline">chat's with us</span>
+ </div>
+</a>
+
+
+        <!-- Enhanced Search Modal -->
+        <div v-if="showSearch" 
+             class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+             @click.self="toggleSearch">
+            <div class="bg-white rounded-xl w-full max-w-3xl mx-4 p-6">
+                <div class="flex items-center mb-6">
+                    <input v-model="searchQuery" 
+                           type="text" 
+                           placeholder="Search by part name, model, or category..." 
+                           class="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                           @keyup.enter="searchParts">
+                    <button @click="toggleSearch" class="ml-4 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times w-6 h-6"></i>
+                    </button>
+                </div>
+                <div v-if="loading" class="py-8 text-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                </div>
+                <div v-else-if="searchResults.length" class="max-h-96 overflow-y-auto">
+                    <div v-for="result in searchResults" 
+                         :key="result.id" 
+                         class="flex items-center p-4 hover:bg-gray-50 rounded-lg">
+                        <img :src="result.image" :alt="result.name" class="w-16 h-16 object-cover rounded">
+                        <div class="ml-4 flex-1">
+                            <h4 class="font-semibold">{{ result.name }}</h4>
+                            <p class="text-sm text-gray-600">{{ result.description }}</p>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-indigo-600 font-bold">Rp {{ result.price.toLocaleString('id-ID') }}</span>
+                            <button @click="addToCart(result)" 
+                                    class="mt-2 bg-indigo-600 text-white px-3 py-1 rounded-lg hover:bg-indigo-700 transition-all duration-300">
+                                Add to Cart
+                                <i class="fas fa-plus ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shopping Cart Sidebar -->
+        <div v-if="showCart" 
+             class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-xl z-50 transform transition-transform"
+             :class="{ 'translate-x-0': showCart, 'translate-x-full': !showCart }">
+            <div class="h-full flex flex-col">
+                <div class="p-4 bg-indigo-600 text-white flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Your Cart</h3>
+                    <button @click="toggleCart" class="p-2 hover:bg-blue-700 rounded-full">
+                        <i class="fas fa-times w-6 h-6"></i>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-4">
+                    <div v-if="cart.length === 0" class="text-center py-8 text-gray-500">
+                        Your cart is empty
+                    </div>
+                    <div v-else v-for="item in cart" :key="item.id" class="flex items-center mb-4 bg-gray-50 p-4 rounded-lg">
+                        <img :src="item.image" :alt="item.name" class="w-20 h-20 object-cover rounded">
+                        <div class="ml-4 flex-1">
+                            <h4 class="font-semibold text-lg mb-1">{{ item.name }}</h4>
+                            <div class="flex items-center mt-2">
+                                <button @click="decrementQuantity(item)" class="p-1 bg-gray-200 rounded">-</button>
+                                <span class="mx-3">{{ item.quantity }}</span>
+                                <button @click="incrementQuantity(item)" class="p-1 bg-gray-200 rounded">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold">Rp {{ (item.price * item.quantity).toLocaleString('id-ID') }}</div>
+                            <button @click="removeFromCart(item)" class="text-red-500 text-sm mt-2 flex items-center"><i class="fas fa-trash-alt mr-1"></i>Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="cart.length > 0" class="p-4 border-t">
+                    <div class="flex justify-between mb-4">
+                        <span class="font-semibold">Total:</span>
+                        <span class="font-bold text-xl">Rp {{ cartTotal.toLocaleString('id-ID') }}</span>
+                    </div> 
+                    <div class="mb-4 space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input v-model="customerInfo.name" type="text" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input v-model="customerInfo.phone" type="tel" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Address</label>
+                            <textarea v-model="customerInfo.address" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div v-if="!isCustomerInfoComplete" class="text-red-500 text-sm mb-2">
+                        Please fill in all required information before checkout
+                    </div>
+                    <button @click="checkout" 
+    :disabled="!isCustomerInfoComplete" 
+    :class="{'opacity-50 cursor-not-allowed': !isCustomerInfoComplete, 'hover:bg-indigo-700 transform hover:scale-105': isCustomerInfoComplete}" 
+    class="w-full bg-indigo-600 text-white py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2">
+    <i class="fas fa-shopping-cart"></i> Checkout...
+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const SDK = window.SDK || {};
+
+        // Add viewport change detection
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            const currentWidth = window.innerWidth;
+            const breakpoint = 768; // Mobile breakpoint
+            
+            if ((lastWidth < breakpoint && currentWidth >= breakpoint) || 
+                (lastWidth >= breakpoint && currentWidth < breakpoint)) {
+                window.location.reload();
+            }
+            lastWidth = currentWidth;
+        });
+
+        const { createApp } = Vue;
+
+        const app = createApp({
+            data() {
+                return {
+                    parts: [],
+                    showLeftMenu: false,
+                    categories: [
+                        { id: 1, name: 'Engine Parts', icon: 'assets/engine-parts.png' },
+                        { id: 2, name: 'Brakes', icon: 'assets/brakes.png' },
+                        { id: 3, name: 'Suspension', icon: 'assets/shock.png' },
+                        { id: 4, name: 'Lamp', icon: 'assets/stoplamp.png' }
+                        
+                    ],
+                    showSearch: false,
+                    showVoice: false,
+                    showCart: false,
+                    searchQuery: '',
+                    loading: false,
+                    customerInfo: {
+                        name: '',
+                        phone: '',
+                        address: ''
+                    },
+                    cart: [],
+                    searchResults: [],
+                    sdk: null
+                   
+                }
+            },
+            computed: {
+                cartCount() {
+                    return this.cart.reduce((total, item) => total + item.quantity, 0);
+                },
+                cartTotal() {
+                    return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                },
+                isCustomerInfoComplete() { 
+                    return this.customerInfo.name.trim() !== '' && 
+                           this.customerInfo.phone.trim() !== '' && 
+                           this.customerInfo.address.trim() !== '';
+                } 
+            },
+            async mounted() {
+                this.sdk = SDK;
+                await this.loadParts();
+            },
+            methods: {
+                async loadParts() {
+                    try {
+                        // Simulated parts data with enhanced details
+                        this.parts = [
+                              {
+                                id: 1,
+                                name: "Rem Cakram Motor Brembo P4 30/34",
+                                description: "Kaliper rem cakram dari Brembo dengan teknologi tinggi, memastikan pengereman yang responsif dan aman.",
+                                price: 2550000,
+                                originalPrice: 3000000,
+                                discount: 15,
+                                compatibility: "Universal Fit",
+                                image: "assets/product/brembo.png",
+                                stock: 45
+                            },
+                            {
+                                id: 2,
+                                name: "Kopling Set FCC untuk Honda CBR150R",
+                                description: "Set kopling dari FCC khusus untuk Honda CBR150R, memastikan perpindahan gigi yang halus dan responsif",
+                                price: 600000,
+                                originalPrice: 705900,
+                                discount: 15,
+                                compatibility: "Sport Bikes",
+                                image: "assets/product/kopling-set.png",
+                                stock: 30
+                            },
+                            {
+                                id: 3,
+                                name: "Aki Motor GS Astra GTZ5S",
+                                description: "Aki kering dari GS Astra dengan daya tahan lama dan performa stabil, cocok untuk berbagai jenis motor",
+                                price: 280000,
+                                originalPrice: 350000,
+                                discount: 20,
+                                compatibility: "Universal",
+                                image: "assets/product/aki.png",
+                                stock: 60
+                            },
+                            {
+                                id: 4,
+                                name: "Shock Absorber KYB Zeto Z Series",
+                                description: "Shockbreaker berkualitas tinggi dari KYB, memberikan kenyamanan maksimal saat berkendara",
+                                price: 380000,
+                                originalPrice: 400000,
+                                discount: 5,
+                                compatibility: "Matic",
+                                image: "assets/product/shock.png",
+                                stock: 25
+                            },
+                            {
+                                id: 5,
+                                name: "Knalpot Racing Akrapovic",
+                                description: "Knalpot racing full titanium untuk performa maksimal",
+                                price: 4500000,
+                                originalPrice: 5000000,
+                                discount: 10,
+                                compatibility: "Sport Bikes",
+                                image: "assets/product/akra.png",
+                                stock: 15
+                            },
+                            {
+                                id: 6,
+                                name: "Oli Top 1 Formula-Fork Premium",
+                                description: "Oli suspensi berkualitas tinggi untuk performa halus",
+                                price: 350000,
+                                compatibility: "All Models",
+                                image: "assets/product/fork.png",
+                                stock: 100
+                            },
+                            {
+                                id: 7,
+                                name: "Fairing Carbon Fiber",
+                                description: "Fairing ringan berbahan carbon fiber untuk aerodinamika lebih baik",
+                                price: 8500000,
+                                originalPrice: 9500000,
+                                discount: 11,
+                                compatibility: "Race Bikes",
+                                image: "assets/product/carbon.png",
+                                stock: 8
+                            },
+                            {
+                                id: 8,
+                                name: "Quick Shifter Kit",
+                                description: "Shifter profesional untuk pergantian gigi tanpa jeda",
+                                price: 3200000,
+                                compatibility: "Sport Bikes",
+                                image: "assets/product/quick.png",
+                                stock: 20
+                            },
+                            {
+                                id: 9,
+                                name: "Radiator Racing",
+                                description: "Radiator aluminium kapasitas tinggi untuk pendinginan maksimal",
+                                price: 2800000,
+                                originalPrice: 3200000,
+                                discount: 13,
+                                compatibility: "Multiple Models",
+                                image: "assets/product/radiator.png",
+                                stock: 18
+                            },
+                            {
+                                id: 10,
+                                name: "Cairan Rem DOT 4",
+                                description: "Cairan rem DOT 4 berkualitas tinggi untuk balapan",
+                                price: 180000,
+                                compatibility: "All Models",
+                                image: "assets/product/DOT.png",
+                                stock: 150
+                            },
+                            {
+                                id: 5,
+                                name: "Stoplamp Vario 125",
+                                description: "Stoplamp LED dengan desain runing untuk Honda Vario 125",
+                                price: 350000,
+                                originalPrice: 400000,
+                                discount: 12,
+                                compatibility: "Honda Vario",
+                                image: "assets/product/stoplamp.png",
+                                stock: 25
+                            }, 
+                            {
+                                id: 12,
+                                name: "ECU Racing",
+                                description: "ECU yang dapat diprogram untuk tuning mesin maksimal",
+                                price: 5800000,
+                                originalPrice: 6500000,
+                                discount: 12,
+                                compatibility: "Racing Models",
+                                image: "assets/product/ecu.png",
+                                stock: 10
+                            }
+                        ];
+                    } catch (error) {
+                        console.error('Error loading parts:', error);
+                    }
+                },
+                toggleSearch() {
+                    this.showSearch = !this.showSearch;
+                    if (!this.showSearch) {
+                        this.searchQuery = '';
+                        this.searchResults = [];
+                    }
+                },
+                toggleCart() {
+                    this.showCart = !this.showCart;
+                },
+                toggleLeftMenu() {
+                    this.showLeftMenu = !this.showLeftMenu;
+                },
+                mounted() {
+                    document.addEventListener('click', (e) => {
+                        if (this.showLeftMenu && !e.target.closest('.fixed')) {
+                            this.showLeftMenu = false;
+                        }
+                    });
+                },
+                async searchParts() {
+                    this.loading = true;
+                    try {
+                        // Simulate search results
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        this.searchResults = this.parts.filter(part => 
+                            part.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            part.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+                        );
+                    } catch (error) {
+                        console.error('Search error:', error);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                addToCart(part) {
+                    const existingItem = this.cart.find(item => item.id === part.id);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        this.cart.push({ ...part, quantity: 1 });
+                    }
+                },
+                removeFromCart(item) {
+                    const index = this.cart.findIndex(cartItem => cartItem.id === item.id);
+                    if (index > -1) {
+                        this.cart.splice(index, 1);
+                    }
+                },
+                incrementQuantity(item) {
+                    item.quantity++;
+                },
+                decrementQuantity(item) {
+                    if (item.quantity > 1) {
+                        item.quantity--;
+                    } else {
+                        this.removeFromCart(item);
+                    }
+                },
+                filterByCategory(categoryId) {
+                    // Implement category filtering
+                    console.log('Filtering by category:', categoryId);
+                },
+                checkout() {
+                    if (!this.isCustomerInfoComplete) {
+                        alert("Harap isi semua data terlebih dahulu.");
+                        return;
+                    }
+            
+                    let message = `Halo, saya ingin memesan:\n`;
+                    this.cart.forEach(item => {
+                        message += `- ${item.quantity}x ${item.name} (Rp ${item.price.toLocaleString('id-ID')})\n`;
+                    });
+            
+                    message += `\nTotal: Rp ${this.cartTotal.toLocaleString('id-ID')}\n`;
+                    message += `\nNama: ${this.customerInfo.name}`;
+                    message += `\nNo HP: ${this.customerInfo.phone}`;
+                    message += `\nAlamat: ${this.customerInfo.address}`;
+            
+                    const phoneNumber = "6285624653594"; // Ganti dengan nomor WhatsApp tujuan
+                    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                    
+                    window.open(whatsappURL, "_blank");
+                }
+            }
+        });
+        app.mount('#app');
+    </script>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+        
+    </style>
+</body>
+</html>

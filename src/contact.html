@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Get in Touch</title>
+    <meta name="description" content="Contact our team for support, inquiries, or collaboration opportunities. We're here to help!">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="min-h-screen">
+        <header class="bg-blue-800 shadow">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <div class="flex items-center">
+                        <a href="../index-old.html" class="flex items-center">
+                            <img src="../img/logo-ak.png" alt="Logo Auto Klinik" class="h-10 w-auto mr-3">
+                            <h1 class="text-2xl font-bold text-white">AUTO KLINIK</h1>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+
+        <main>
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <!-- Contact Form Section -->
+<div class="bg-white rounded-lg shadow px-4 py-8 sm:px-10">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-8">
+            Contact Us
+        </h2>
+        <form class="grid grid-cols-1 gap-6" onsubmit="return validateForm();">
+            <div>
+                <label for="name" class="block text-base font-medium text-gray-700">Name</label>
+                <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-2 border-gray-500 shadow-sm focus:border-indigo-700 focus:ring-indigo-700" oninput="checkInputs()">
+            </div>
+            <div>
+                <label for="email" class="block text-base font-medium text-gray-700">Email</label>
+                <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-2 border-gray-500 shadow-sm focus:border-indigo-700 focus:ring-indigo-700" oninput="checkInputs()">
+            </div>
+            <div>
+                <label for="subject" class="block text-base font-medium text-gray-700">Subject</label>
+                <input type="text" name="subject" id="subject" class="mt-1 block w-full rounded-md border-2 border-gray-500 shadow-sm focus:border-indigo-700 focus:ring-indigo-700" oninput="checkInputs()">
+            </div>
+            <div>
+                <label for="message" class="block text-base font-medium text-gray-700">Message</label>
+                <textarea name="message" id="message" rows="4" class="mt-1 block w-full rounded-md border-2 border-gray-500 shadow-sm focus:border-indigo-700 focus:ring-indigo-700" oninput="checkInputs()"></textarea>
+            </div>
+            <button type="submit" id="sendButton" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-gray-400 cursor-not-allowed" disabled>
+                Send Message
+            </button>
+        </form>
+        
+
+        <script>
+            function checkInputs() {
+                let name = document.getElementById("name").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let subject = document.getElementById("subject").value.trim();
+                let message = document.getElementById("message").value.trim();
+                let sendButton = document.getElementById("sendButton");
+
+                if (name && email && subject && message) {
+                    sendButton.disabled = false;
+                    sendButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+                    sendButton.classList.add("bg-indigo-600", "hover:bg-indigo-700");
+                } else {
+                    sendButton.disabled = true;
+                    sendButton.classList.remove("bg-indigo-600", "hover:bg-indigo-700");
+                    sendButton.classList.add("bg-gray-400", "cursor-not-allowed");
+                }
+            }
+
+            function validateForm() {
+                let name = document.getElementById("name").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let subject = document.getElementById("subject").value.trim();
+                let message = document.getElementById("message").value.trim();
+
+                if (!name || !email || !subject || !message) {
+                    alert("Harap isi semua kolom sebelum mengirim pesan.");
+                    return false;
+                }
+
+                sendEmail(name, email, subject, message);
+                return false;
+            }
+
+            function sendEmail(name, email, subject, message) {
+                let mailtoLink = `mailto:autoklinik309@gmail.com?subject=${encodeURIComponent(subject)}&body=Halo, saya ${encodeURIComponent(name)} (${encodeURIComponent(email)}) ingin bertanya mengenai: %0D%0A%0D%0A${encodeURIComponent(message)}`;
+                window.location.href = mailtoLink;
+            }
+        </script>
+    </div>
+</div>
+
+
+               <!-- Contact Information -->
+               <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Office Location -->
+                <div class="bg-white rounded-2xl shadow-xl px-10 py-8 border border-gray-300 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3 mb-4">
+                        <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 2C8.13 2 5 5.13 5 9c0 3.55 3.5 8.4 6.33 11.6a1 1 0 001.34 0C15.5 17.4 19 12.55 19 9c0-3.87-3.13-7-7-7zm0 11.25c-2.34 0-4.25-1.91-4.25-4.25S9.66 4.75 12 4.75 16.25 6.66 16.25 9s-1.91 4.25-4.25 4.25z">
+                            </path>
+                        </svg>
+                        Office Location
+                    </h3>
+                    <div class="space-y-2 text-gray-700 text-lg">
+                        <p class="font-semibold text-gray-800">Bengkel Auto Klinik</p>
+                        <p>Jl. Gebang - Ciledug No.1, Babakan</p>
+                        <p>Kec. Babakan, Kabupaten Cirebon</p>
+                        <p class="text-gray-600">Jawa Barat, 45191</p>
+                    </div>
+                </div>
+            
+                <!-- Contact Information -->
+                <div class="bg-white rounded-2xl shadow-xl px-10 py-8 border border-gray-300 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3 mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 5h18M8 10h8m-8 5h5m-3 4h10M5 20h.01">
+                            </path>
+                        </svg>
+                        Contact Information
+                    </h3>
+                    <div class="space-y-2 text-gray-700 text-lg">
+                        <p><span class="font-semibold text-gray-800">✉️ Email:</span> autoklinik309@gmail.com</p>
+                        <p><span class="font-semibold text-gray-800">📱 Phone:</span> (+62) 856-2465-3594</p>
+                        <p><span class="font-semibold text-gray-800">⏰ Hours:</span> Monday - Friday</p>
+                        <p class="text-gray-600">🕒 9:00 AM - 5:00 PM WIB</p>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+                <!-- Map Section -->
+                <div class="mt-8 bg-white rounded-lg shadow p-6 flex justify-center">
+                    <div class="w-full max-w-4xl">
+                        <div class="relative overflow-hidden rounded-lg shadow-lg">
+                            <iframe 
+                                class="w-full h-[450px]" 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.328187007931!2d108.72052007500666!3d-6.8512068670258515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f07e87e48efff%3A0x47cfc73281566f85!2sAuto%20Clinic!5e0!3m2!1sid!2sid!4v1739565047090!5m2!1sid!2sid" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                        <footer class="mt-12 pt-8 border-t border-gray-200 text-center">
+                            <p class="text-gray-400 text-sm mt-2">© 2025 AUTO KLINIK. All rights reserved.</p>
+                        </footer>
+                    </div>
+                </div>
+        </main>
+    </div>
+</body>
+</html>
