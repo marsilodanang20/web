@@ -11,19 +11,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
-   <body class="bg-gray-50">
-    <div id="app" v-cloak>
-        <!-- Header with Enhanced Navigation -->
-        <!-- Left Menu Sidebar -->
-        <header class="bg-gradient-to-r from-indigo-800 to-blue-900 text-white shadow-xl">
-            <nav class="container mx-auto px-4 py-4">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-4">
-                        <a href="index-old.html" class="flex items-center space-x-4">
-                            <img src="img/logo-ak.png" alt="AUTO KLINIK Logo" class="h-10 w-10">
-                            <h1 class="text-2xl font-bold tracking-tight">AUTO KLINIK</h1>
-                        </a>
-                    </div>
+    <body class="bg-gray-50">
+        <div id="app" v-cloak>
+            <!-- Header with Enhanced Navigation -->
+            <!-- Left Menu Sidebar -->
+            <header class="bg-gradient-to-r from-indigo-800 to-blue-900 text-white shadow-xl">
+                <nav class="container mx-auto px-4 py-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <a href="index-old.html" class="flex items-center space-x-4">
+                                <img src="img/logo-ak.png" alt="MotoSpare Logo" class="h-10 w-10">
+                                <h1 class="text-2xl font-bold tracking-tight">AUTO KLINIK</h1>
+                            </a>
+                        </div>
                     <div class="flex items-center space-x-6">
                         <div class="hidden md:flex items-center space-x-4">
                             <a href="src/about.html" class="text-white hover:text-indigo-200 hover:underline">About Us</a>
@@ -50,26 +50,27 @@
             </nav>
         </header>
 
-       <!-- Mobile Menu Sidebar -->
-        <div v-if="showLeftMenu" 
-             class="fixed inset-y-0 right-0 w-64 bg-indigo-800 text-white shadow-xl z-50 transform transition-transform duration-300"
-             :class="{ 'translate-x-0': showLeftMenu, 'translate-x-full': !showLeftMenu }">
+        <!-- Mobile Menu Sidebar -->
+            <div v-if="showLeftMenu" 
+            class="fixed inset-y-0 right-0 w-64 bg-indigo-800 text-white shadow-xl z-50 transform transition-transform duration-300"
+            :class="{ 'translate-x-0': showLeftMenu, 'translate-x-full': !showLeftMenu }">
             <div class="p-6">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-xl font-bold">Menu</h3>
-                    <button @click="toggleLeftMenu" class="p-2 hover:bg-indigo-700 rounded-full">
-                        <i class="fas fa-times w-6 h-6"></i>
-                    </button>
-                </div>
-                <div class="space-y-4">
-                    <a href="src/about.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-info-circle mr-3"></i>About Us</a>
-                    <a href="src/contact.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-envelope mr-3"></i>Contact Us</a>
-                    <a href="src/privacy.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-shield-alt mr-3"></i>Privacy Policy</a>
-                    <!-- Tombol Logout -->
-                    <a href="index.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-sign-out-alt mr-3"></i>Logout</a>
-                </div>
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-xl font-bold">Menu</h3>
+                <button @click="toggleLeftMenu" class="p-2 hover:bg-indigo-700 rounded-full">
+                    <i class="fas fa-times w-6 h-6"></i>
+                </button>
             </div>
-        </div>
+            <div class="space-y-4">
+                <a href="src/about.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-info-circle mr-3"></i>About Us</a>
+                <a href="src/contact.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-envelope mr-3"></i>Contact Us</a>
+                <a href="src/privacy.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-shield-alt mr-3"></i>Privacy Policy</a>
+                <!-- Tombol Logout -->
+                <a href="index.html" class="block py-3 hover:bg-indigo-700 px-6 rounded-lg transition-all duration-300 flex items-center"><i class="fas fa-sign-out-alt mr-3"></i>Logout</a>
+            </div>
+            </div>
+            </div>
+
 
         <!-- Main Content -->
         <main class="container mx-auto px-4 py-8">
@@ -175,16 +176,118 @@
             </div>
         </footer>
 
-      <!-- WhatsApp Chat Button -->
-<a href="https://wa.me/+6285624653594" 
-target="_blank"
-class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 z-40">
- <div class="flex items-center space-x-2">
-     <i class="fab fa-whatsapp text-2xl animate-bounce"></i>
-     <span class="hidden md:inline">chat's with us</span>
- </div>
-</a>
+     <!-- WhatsApp Chat Button -->
+<div class="fixed bottom-6 right-6 z-50">
+    <button id="chat-btn" class="bg-gradient-to-r from-green-500 to-green-400 text-white p-4 rounded-full shadow-lg 
+        hover:scale-110 transform transition-all duration-300 flex items-center space-x-2">
+        <i class="fab fa-whatsapp text-2xl animate-bounce"></i>
+        <span class="hidden md:inline font-semibold">Chat with Us</span>
+    </button>
 
+    <!-- Chat Box -->
+    <div id="chat-box" class="absolute bottom-24 right-2 bg-white rounded-xl shadow-2xl w-80 
+        opacity-0 invisible transition-all duration-300 transform scale-95 border border-gray-200">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between bg-green-500 text-white px-4 py-3 rounded-t-xl">
+            <div class="flex items-center space-x-3">
+                <img src="../img/cs.png" alt="Admin" class="w-10 h-10 rounded-full border border-white">
+                <div>
+                    <h3 class="font-semibold text-lg">Customer Support</h3>
+                    <p class="text-sm flex items-center">
+                        <span class="animate-pulse text-xs">🟢 Online</span>
+                    </p>
+                </div>
+            </div>
+            <button id="close-chat" class="text-white text-xl hover:text-red-300 transition">&times;</button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="messages-container" class="p-4 space-y-3 max-h-64 overflow-y-auto">
+            <div class="flex items-start space-x-2">
+                <img src="../img/cs.png" class="w-8 h-8 rounded-full">
+                <div class="bg-gray-100 p-3 rounded-lg text-sm text-gray-700 shadow">
+                    👋 Hai! Ada yang bisa kami bantu?
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-3 border-t flex items-center space-x-2 bg-gray-50">
+            <input id="chat-input" type="text" placeholder="Tulis pesan..." class="w-full p-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+            <button id="send-message" class="bg-green-500 text-white p-2 rounded-lg hover:scale-105 transition-all">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/+6285624653594" target="_blank" 
+            class="block bg-gradient-to-r from-green-600 to-green-400 text-white text-center py-3 px-6 
+            rounded-full shadow-lg hover:shadow-green-500/50 hover:shadow-xl transition-all duration-300 font-semibold 
+            flex items-center justify-center space-x-3 transform hover:scale-105 relative overflow-hidden">
+            <span class="absolute inset-0 bg-green-500 opacity-10 blur-lg transition-all duration-500 hover:opacity-30"></span>
+            <i class="fab fa-whatsapp text-2xl animate-pulse"></i>
+            <span class="relative z-10">Chat via WhatsApp</span>
+        </a>
+    </div>
+</div>
+
+<!-- Script untuk Toggle Chat dan Kirim Pesan -->
+<script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        const chatBtn = document.getElementById("chat-btn");
+        const chatBox = document.getElementById("chat-box");
+        const closeChat = document.getElementById("close-chat");
+        const messageInput = document.getElementById("chat-input");
+        const sendButton = document.getElementById("send-message");
+        const messagesContainer = document.getElementById("messages-container");
+
+        // Fungsi Toggle Chat Box
+        chatBtn.addEventListener("click", () => {
+            chatBox.classList.toggle("opacity-0");
+            chatBox.classList.toggle("invisible");
+            chatBox.classList.toggle("scale-95");
+            chatBox.classList.toggle("scale-100");
+            messageInput.focus(); // Fokus ke input saat chat dibuka
+        });
+
+        closeChat.addEventListener("click", () => {
+            chatBox.classList.add("opacity-0", "invisible", "scale-95");
+            chatBox.classList.remove("scale-100");
+        });
+
+        // Fungsi untuk menambahkan pesan ke chat
+        function addMessage(text) {
+            if (!text.trim()) return; // Cegah pesan kosong
+
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("flex", "justify-end");
+
+            messageDiv.innerHTML = `
+                <div class="bg-green-100 p-3 rounded-lg text-sm text-gray-700 shadow">
+                    ${text}
+                </div>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll ke bawah
+            messageInput.value = ""; // Kosongkan input setelah kirim
+        }
+
+        // Event listener untuk tombol kirim
+        sendButton.addEventListener("click", () => {
+            addMessage(messageInput.value);
+        });
+
+        // Event listener untuk Enter pada input
+        messageInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addMessage(messageInput.value);
+            }
+        });
+    });
+</script>
 
         <!-- Enhanced Search Modal -->
         <div v-if="showSearch" 
